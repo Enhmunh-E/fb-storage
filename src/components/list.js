@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import ItemList from './itemList'
 import { firebase, db, storage } from '../firebase'
-const List = ({ files, setFiles }) => {
+const List = () => {
+    const [files, setFiles] = useState([]);
     useEffect(() => {
         setFiles([]);
         var storageRef = storage.ref();
@@ -19,7 +20,6 @@ const List = ({ files, setFiles }) => {
             });
         }); 
     }, [])
-
     return (
         <div style={{ width: '100%', alignItems: 'flex-start', overflowY: 'scroll'}}>
             {
