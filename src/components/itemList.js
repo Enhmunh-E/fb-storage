@@ -2,9 +2,9 @@ import React from 'react'
 
 import fileIcon from './../file.png'
 
-const ItemList = ({ name = 'name', date = '2020/20/20' }) => {
+const ItemList = ({ name = 'name', date = '2020/20/20', url='' }) => {
     return (
-        <div style={{ display: 'flex', flexDirection: 'row', height: '50px', padding: '10px', margin: '30px', backgroundColor: 'white', borderRadius: '5px' }}>
+        <div onClick={() => window.location.href = url} style={{ display: 'flex', flexDirection: 'row', height: '50px', padding: '10px', margin: '30px', backgroundColor: 'white', borderRadius: '5px' }}>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <img src={fileIcon} height={'30px'} width={'30px'} />
             </div>

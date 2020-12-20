@@ -1,17 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ItemList from './itemList'
-
-const List = () => {
-    const [files, setFiles] = useState([
-        { name: 'File.png' },
-        { name: 'File1.png' },
-        { name: 'File2.png' }
-    ])
+import { firebase, db, storage } from '../firebase'
+const List = ({ files, setFiles }) => {
+    useEffect(() => {
+        setFiles([]);
+        var storageRef = storage.ref();
+        var listRef = storageRef.child('img-storage');
+        listRef.listAll().then((res) => {
+            res.items.forEach((itemRef) => {
+                let url;
+                itemRef.getDownloadURL().then(function(downloadURL) {
+                    url = downloadURL;
+                });
+                itemRef.getMetadata().then((metadata) => {
+                    let dt = metadata.timeCreated;
+                    setFiles(files => [...files, {name: metadata.name, date: dt.substring(0, 4)+'/'+dt.substring(5, 7)+'/'+dt.substring(8, 10), url: url}]);
+                })
+            });
+        }); 
+    }, [])
 
     return (
-        <div style={{ width: '100%', alignItems: 'flex-start' }}>
+        <div style={{ width: '100%', alignItems: 'flex-start', overflowY: 'scroll'}}>
             {
-                files.map(item => (<ItemList {...item} />))
+                files.map(item => (<ItemList name={item.name} date={item.date} url={item.url}/>))
             }
         </div>
     )
